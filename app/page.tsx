@@ -1,5 +1,6 @@
 import {Chat} from "@/components/Chat";
-import Alerts from "@/components/Alerts";
+// import Alerts from "@/components/Alerts";
+// import {Tools} from "@/components/Tools";
 
 
 export default function Home() {
@@ -11,7 +12,8 @@ export default function Home() {
         </h1>
         <small className="text-center text-sm text-stone-400">Nir Kaufman | 2025</small>
         <Chat />
-        <Alerts />
+        {/*<Alerts />*/}
+        {/*<Tools />*/}
       </main>
     </div>
   );

@@ -8,8 +8,21 @@ export default function Alerts() {
 
 
   return (
-      <div>
-        <div
+      <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+        {generation && (
+            <pre className="whitespace-pre-wrap mb-3">
+              {JSON.stringify(generation, null, 2)}
+            </pre>
+        )}
+
+        {isLoading && (
+            <div className="whitespace-pre-wrap mb-3">
+              Loading...
+            </div>
+        )}
+
+        <button
+            className="fixed dark:bg-zinc-900 bottom-0 w-full max-w-md p-2 mb-8 border border-zinc-300 dark:border-zinc-800 rounded shadow-xl"
             onClick={async () => {
               setIsLoading(true);
 
@@ -26,14 +39,8 @@ export default function Alerts() {
               });
             }}
         >
-          Generate
-        </div>
-
-        {isLoading ? (
-            'Loading...'
-        ) : (
-            <pre>{JSON.stringify(generation, null, 2)}</pre>
-        )}
+          Generate Alerts
+        </button>
       </div>
   );
 }
