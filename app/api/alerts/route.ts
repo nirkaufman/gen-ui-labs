@@ -1,19 +1,16 @@
+import { generateObject } from 'ai';
 import { openai } from '@ai-sdk/openai';
-import { streamObject } from 'ai';
-import { alertSchema } from './schema';
-
-export const maxDuration = 30;
+import {alertSchema} from "@/app/api/alerts/schema";
 
 export async function POST(req: Request) {
-  const context = await req.json();
+  const { prompt }: { prompt: string } = await req.json();
 
-  const result = streamObject({
-    model: openai('gpt-4.1'),
-    schema: alertSchema,
-    system: 'Math an emoji for each alert type. example: use ℹ️ for info, 🚨 for error and ‼️ for warning',
-    prompt:
-        `Generate 3 alerts for a dashboard app in this context:` + context,
+  const result = await generateObject({
+    model: openai('gpt-4o'),
+    system: 'You are an home security system.',
+    prompt: `create alerts in the context of the following prompt: ${prompt}`,
+    schema: alertSchema
   });
 
-  return result.toTextStreamResponse();
+  return result.toJsonResponse();
 }

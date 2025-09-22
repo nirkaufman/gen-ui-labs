@@ -1,5 +1,6 @@
 import {Chat} from "@/components/Chat";
-import {Alerts} from "@/components/Alerts";
+import Alerts from "@/components/Alerts";
+
 
 export default function Home() {
   return (

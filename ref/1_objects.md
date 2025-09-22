@@ -1,38 +1,45 @@
 # Structured data (Objects)
 
-- under `components` create new file name: `Structured.tsx`
+- under `components` create new file name: `Alerts.tsx`
 
-__Alert.tsx__
+__Alerts.tsx__
 ```tsx
 'use client';
 
-import { experimental_useObject as useObject } from '@ai-sdk/react';
-import {alertSchema} from "@/app/api/alerts/schema";
+import { useState } from 'react';
 
+export default function Alerts() {
+  const [generation, setGeneration] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
-export function Alerts() {
-  const { object, submit } = useObject({
-    api: '/api/alerts',
-    schema: alertSchema,
-  });
-
-  console.log(object);
 
   return (
-      <div className="fixed top-0 left-0 z-50">
-        <button
-            onClick={() => submit('Messages during finals week.')}
-            className="mb-4 px-3 py-1 border border-white text-sm"
-        >
-          Generate Alerts
-        </button>
+      <div>
+        <div
+            onClick={async () => {
+              setIsLoading(true);
 
-        {object?.alerts?.map((alert, index) => (
-            <div key={index} className="border border-white p-2 mb-2.5 text-sm">
-              <p>{alert?.alertType}</p>
-              <p>{alert?.message}</p>
-            </div>
-        ))}
+              await fetch('/api/alerts', {
+                method: 'POST',
+                body: JSON.stringify({
+                  prompt: 'Alerts from home security system.',
+                }),
+              }).then(response => {
+                response.json().then(json => {
+                  setGeneration(json.alerts);
+                  setIsLoading(false);
+                });
+              });
+            }}
+        >
+          Generate
+        </div>
+
+        {isLoading ? (
+            'Loading...'
+        ) : (
+            <pre>{JSON.stringify(generation, null, 2)}</pre>
+        )}
       </div>
   );
 }
@@ -49,35 +56,31 @@ export const alertSchema = z.object({
   alerts: z.array(
       z.object({
         alertType: z.string().describe('The type of the alert. example: "info", "warning", "error".'),
-        message: z.string().describe('Short message to display to the user. example: "You have 5 new messages."'),
+        message: z.string().describe('Short message to display to the user.'),
       }),
   ),
 });
-
 ```
 
 - under `api/alerts` create new file name: `route.ts`
 
 ___route.ts___
 ```typescript
+import { generateObject } from 'ai';
 import { openai } from '@ai-sdk/openai';
-import { streamObject } from 'ai';
-import { alertSchema } from './schema';
-
-export const maxDuration = 30;
+import {alertSchema} from "@/app/api/alerts/schema";
 
 export async function POST(req: Request) {
-  const context = await req.json();
+  const { prompt }: { prompt: string } = await req.json();
 
-  const result = streamObject({
-    model: openai('gpt-4.1'),
-    schema: alertSchema,
-    system: 'Math an emoji for each alert type. example: use ℹ️ for info, 🚨 for error and ‼️ for warning',
-    prompt:
-        `Generate 3 alerts for a dashboard app in this context:` + context,
+  const result = await generateObject({
+    model: openai('gpt-4o'),
+    system: 'You are an home security system.',
+    prompt: `create alerts in the context of the following prompt: ${prompt}`,
+    schema: alertSchema
   });
 
-  return result.toTextStreamResponse();
+  return result.toJsonResponse();
 }
 
 ```
