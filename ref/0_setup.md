@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 - add the following code`
 
 __components/Chat.tsx__
-```typescript
+```tsx
 'use client'
 import {useChat} from '@ai-sdk/react';
 import {useState} from 'react';
@@ -52,34 +52,34 @@ export function Chat() {
 
   return (
       <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
-          {messages.map(message => {
-              return (
-                  <div key={message.id} className="whitespace-pre-wrap mb-3">
-                  {message.role === 'user' ? ' User: ' : 'AI: '}
-                  {message.parts.map((part, i) => {
-                    switch (part.type) {
-                      case 'text':
-                        return <div key={`${message.id}-${i}`}>{part.text}</div>;
+        {messages.map(message => {
+          return (
+              <div key={message.id} className="whitespace-pre-wrap mb-3">
+                {message.role === 'user' ? ' User: ' : 'AI: '}
+                {message.parts.map((part, i) => {
+                  switch (part.type) {
+                    case 'text':
+                      return <div key={`${message.id}-${i}`}>{part.text}</div>;
                   }
                 })}
               </div>
-            )
-          })}
-          
-          <form onSubmit={e => {
-                e.preventDefault();
-                sendMessage({text: input});
-                setInput('');
-          }}>
-  
-  <input
-      className="fixed dark:bg-zinc-900 bottom-0 w-full max-w-md p-2 mb-8 border border-zinc-300 dark:border-zinc-800 rounded shadow-xl"
-  value={input}
-  placeholder="Say something..."
-  onChange={e => setInput(e.currentTarget.value)}/>
-  </form>
-  </div>
-);
+          )
+        })}
+
+        <form onSubmit={e => {
+          e.preventDefault();
+          sendMessage({text: input});
+          setInput('');
+        }}>
+
+          <input
+              className="fixed dark:bg-zinc-900 bottom-0 w-full max-w-md p-2 mb-8 border border-zinc-300 dark:border-zinc-800 rounded shadow-xl"
+              value={input}
+              placeholder="Say something..."
+              onChange={e => setInput(e.currentTarget.value)}/>
+        </form>
+      </div>
+  );
 }
 
 ```
@@ -87,7 +87,7 @@ export function Chat() {
 - import and render the `Chat` component in `app/page.tsx`
 
 __app/page.tsx__
-```typescript
+```tsx
 import {Chat} from "@/components/Chat";
 
 export default function Home() {

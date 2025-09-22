@@ -1,4 +1,5 @@
 import {Chat} from "@/components/Chat";
+import {Alerts} from "@/components/Alerts";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
         </h1>
         <small className="text-center text-sm text-stone-400">Nir Kaufman | 2025</small>
         <Chat />
+        <Alerts />
       </main>
     </div>
   );
