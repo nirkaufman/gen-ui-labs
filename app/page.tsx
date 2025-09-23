@@ -1,4 +1,5 @@
 import {Chat} from "@/components/Chat";
+import HTMLGenerator from "@/components/HTMLGenerator";
 // import Alerts from "@/components/Alerts";
 // import {Tools} from "@/components/Tools";
 
@@ -13,6 +14,7 @@ export default function Home() {
         <Chat />
         {/*<Alerts />*/}
         {/*<Tools />*/}
+        <HTMLGenerator />
       </main>
     </div>
   );
