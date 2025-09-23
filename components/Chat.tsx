@@ -11,7 +11,7 @@ export function Chat() {
         {messages.map(message => {
           return (
               <div key={message.id} className="whitespace-pre-wrap mb-3">
-                {message.role === 'user' ? ' User: ' : 'AI: '}
+                {message.role === 'user' ? 'User: ' : 'AI: '}
                 {message.parts.map((part, i) => {
                   switch (part.type) {
                     case 'text':

@@ -18,7 +18,7 @@ export function Tools() {
       <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
         {messages.map((message, index) => (
             <div key={index} className="whitespace-pre-wrap mb-3">
-              {message.role === 'user' ? ' User: ' : 'AI: '}
+              {message.role === 'user' ? 'User: ' : 'AI: '}
               {message.parts.map(part => {
                 switch (part.type) {
                   case 'text':
