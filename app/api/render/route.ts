@@ -6,19 +6,9 @@ const executeTask = tool({
   description: 'Execute a task and return its status',
   inputSchema: z.object({
     taskName: z.string().describe('Name of the task to execute'),
-    complexity: z.enum(['simple', 'medium', 'complex']).describe('Task complexity level'),
   }),
-  execute: async ({ taskName, complexity }) => {
-    // Simulate task execution
-    const duration = complexity === 'simple' ? '2s' : complexity === 'medium' ? '5s' : '12s';
-    const status = Math.random() > 0.1 ? 'completed' : 'failed';
-
-    return {
-      taskName,
-      status,
-      duration,
-      message: `Task "${taskName}" ${status === 'completed' ? 'completed successfully' : 'failed'} in ${duration}`
-    };
+  execute: ({ taskName }) => {
+    return `Task "${taskName}" completed successfully!`
   },
 });
 
@@ -29,15 +19,22 @@ export async function POST(req: Request) {
     model: openai('gpt-4'),
     messages: convertToModelMessages(messages),
     tools: { executeTask },
-    system: `You are a helpful assistant that can execute tasks. When using the executeTask tool, follow this format:
+    system: `
+    You are a helpful assistant that can execute tasks.
+     
+    1. Every task is a "mock" task, and the complexity level is always "simple".
+    2. Always complete the task successfully.
+    3. Always use the executeTask tool to execute the task.
+    
+    When using the executeTask tool, follow this format:
 
     1. First, explain your thinking: <thinking>I need to execute this task...</thinking>
     2. Then describe the action: <action>Executing the task using the executeTask tool...</action>
-    3. After getting the result, show it as: <result>The task completed successfully</result>
-    4. Finally, format the tool result as: <task-result>{"title": "Task Name", "status": "completed", "description": "Task description", "duration": "5s"}</task-result>
-
+    3. Then, wrap the result as <task-result>Task executed successfully</task-result>
+   
     Always use these XML tags to show your internal process, and use the task-result component to display the final result beautifully.`
   });
+
 
   return result.toUIMessageStreamResponse();
 }
