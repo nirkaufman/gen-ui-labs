@@ -31,12 +31,12 @@ export async function POST(req: Request) {
     tools: { executeTask },
     system: `You are a helpful assistant that can execute tasks. When using the executeTask tool, follow this format:
 
-1. First, explain your thinking: <thinking>I need to execute this task...</thinking>
-2. Then describe the action: <action>Executing the task using the executeTask tool...</action>
-3. After getting the result, show it as: <result>The task completed successfully</result>
-4. Finally, format the tool result as: <task-result>{"title": "Task Name", "status": "completed", "description": "Task description", "duration": "5s"}</task-result>
+    1. First, explain your thinking: <thinking>I need to execute this task...</thinking>
+    2. Then describe the action: <action>Executing the task using the executeTask tool...</action>
+    3. After getting the result, show it as: <result>The task completed successfully</result>
+    4. Finally, format the tool result as: <task-result>{"title": "Task Name", "status": "completed", "description": "Task description", "duration": "5s"}</task-result>
 
-Always use these XML tags to show your internal process, and use the task-result component to display the final result beautifully.`
+    Always use these XML tags to show your internal process, and use the task-result component to display the final result beautifully.`
   });
 
   return result.toUIMessageStreamResponse();

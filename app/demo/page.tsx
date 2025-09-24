@@ -3,7 +3,7 @@
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 import { useState } from 'react';
-import { renderStreamContent } from '@/lib/simple-render';
+import renderStreamContent from '@/lib/simple-render';
 
 export default function RenderDemo() {
   const [input, setInput] = useState('');
@@ -18,15 +18,6 @@ export default function RenderDemo() {
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">LLM UI Demo with ReactDOMServer</h1>
 
-      <div className="bg-gray-50 p-4 rounded-lg mb-6">
-        <p className="text-sm text-gray-600 mb-2">Try these example prompts:</p>
-        <ul className="text-sm text-gray-700 space-y-1">
-          <li>• &ldquo;Execute a data backup task&rdquo;</li>
-          <li>• &ldquo;Run a complex system analysis&rdquo;</li>
-          <li>• &ldquo;Perform a simple file cleanup&rdquo;</li>
-        </ul>
-      </div>
-
       <div className="border rounded-lg">
         <div className="h-96 overflow-y-auto p-4 space-y-4">
           {messages.map((message) => (
@@ -38,10 +29,7 @@ export default function RenderDemo() {
             >
               <div
                 className={`inline-block max-w-[80%] p-3 rounded-lg ${
-                  message.role === 'user'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100'
-                }`}
+                  message.role === 'user' && 'bg-blue-500 text-white'}`}
               >
                 {message.parts.map((part, i) => {
                   switch (part.type) {
@@ -56,8 +44,6 @@ export default function RenderDemo() {
                           }}
                         />
                       );
-                    default:
-                      return <div key={`${message.id}-${i}`}>{JSON.stringify(part, null, 2)}</div>;
                   }
                 })}
               </div>
