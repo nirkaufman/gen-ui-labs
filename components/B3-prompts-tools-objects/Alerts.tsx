@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function Alerts() {
+export function Alerts() {
   const [generation, setGeneration] = useState();
   const [isLoading, setIsLoading] = useState(false);
 

@@ -1,8 +1,7 @@
-import {Chat} from "@/components/Chat";
-import HTMLGenerator from "@/components/HTMLGenerator";
-import RenderMarkdown from "@/components/MarkdownRender";
-import {RenderDemo} from "@/components/JSXRender/RenderDemo";
-// import Alerts from "@/components/Alerts";
+// import {Chat} from "@/components/Chat";
+// import HTMLGenerator from "@/components/HTMLGenerator";
+// import RenderMarkdown from "@/components/MarkdownRender";
+// import {Alerts} from "@/components/Alerts";
 // import {Tools} from "@/components/Tools";
 
 export default function Home() {
@@ -18,7 +17,6 @@ export default function Home() {
         {/*<Tools />*/}
         {/*<HTMLGenerator />*/}
         {/*<RenderMarkdown />*/}
-        <RenderDemo />
       </main>
     </div>
   );
