@@ -1,7 +1,7 @@
 import ReactDOMServer from 'react-dom/server';
-import { TaskResult } from '@/components/TaskResult';
-import { ThinkingStep } from '@/components/ThinkingStep';
-import { ActionStep } from '@/components/ActionStep';
+import { TaskResult } from '@/components/JSXRender/components/TaskResult';
+import { ThinkingStep } from '@/components/JSXRender/components/ThinkingStep';
+import { ActionStep } from '@/components/JSXRender/components/ActionStep';
 
 const renderStreamContent = (content: string) => {
   let html = content;

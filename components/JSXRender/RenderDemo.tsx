@@ -5,7 +5,7 @@ import { DefaultChatTransport } from 'ai';
 import { useState } from 'react';
 import renderStreamContent from '@/lib/simple-render';
 
-export default function RenderDemo() {
+export function RenderDemo() {
   const [input, setInput] = useState('');
 
   const { messages, sendMessage } = useChat({
@@ -15,10 +15,7 @@ export default function RenderDemo() {
   });
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">LLM UI Demo with ReactDOMServer</h1>
-
-      <div className="border rounded-lg">
+      <div className="border rounded-lg mt-5">
         <div className="h-96 overflow-y-auto p-4 space-y-4">
           {messages.map((message) => (
             <div
@@ -75,6 +72,5 @@ export default function RenderDemo() {
           </div>
         </form>
       </div>
-    </div>
   );
 }
