@@ -2,7 +2,7 @@
 
 import {ReactNode, useState} from 'react';
 import {useActions, useUIState} from "@ai-sdk/rsc";
-import {HomeDecoratorAction} from "@/components/A1-case-study/home-decorator.action";
+
 
 const popularColors = [
   '#FF6B6B', // Red
@@ -25,7 +25,7 @@ export default function SimpleColorPicker() {
     setSelectedColor(color);
 
     const display = await HomeDecoratorAction(
-        `This is my current color: ${selectedColor}, recommend me a complementary new color`,
+        `This is my current color: ${color}, recommend me a complementary new color`,
     );
 
     setMessages((messages: ReactNode[]) => [...messages, display]);
