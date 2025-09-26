@@ -13,42 +13,42 @@ export default function HomeDecoratorDemo() {
   const [conversation, setConversation] = useUIState();
   const { HomeDecoratorAction } = useActions();
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    setConversation((currentConversation: ClientMessage[]) => [
+      ...currentConversation,
+      { id: generateId(), role: 'user', display: input },
+    ]);
+
+    const message = await HomeDecoratorAction(input);
+
+    setConversation((currentConversation: ClientMessage[]) => [
+      ...currentConversation,
+      message,
+    ]);
+
+    setInput('');
+  };
+
   return (
-      <div>
-        <div>
-          {conversation.map((message: ClientMessage) => (
-              <div key={message.id}>
-                {message.role}: {message.display}
-              </div>
-          ))}
-        </div>
+      <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+        {conversation.map((message: ClientMessage) => (
+            <div key={message.id} className="whitespace-pre-wrap mb-3">
+              {message.role === 'user' ? 'User: ' : 'AI: '}
+              {message.display}
+            </div>
+        ))}
 
-        <div>
+        <form onSubmit={handleSubmit}>
           <input
-              type="text"
+              className="fixed dark:bg-zinc-900 bottom-0 w-full max-w-md p-2 mb-8 border border-zinc-300 dark:border-zinc-800 rounded shadow-xl"
               value={input}
-              onChange={event => {
-                setInput(event.target.value);
-              }}
+              placeholder="Say something..."
+              onChange={e => setInput(e.currentTarget.value)}
           />
-          <button
-              onClick={async () => {
-                setConversation((currentConversation: ClientMessage[]) => [
-                  ...currentConversation,
-                  { id: generateId(), role: 'user', display: input },
-                ]);
-
-                const message = await HomeDecoratorAction(input);
-
-                setConversation((currentConversation: ClientMessage[]) => [
-                  ...currentConversation,
-                  message,
-                ]);
-              }}
-          >
-            Send Message
-          </button>
-        </div>
+        </form>
       </div>
   );
 }
