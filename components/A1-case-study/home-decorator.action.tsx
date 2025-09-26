@@ -30,13 +30,15 @@ export async function HomeDecoratorAction(input: string) {
     The user can ask for color recommendation for his entire home, or a specific room. 
     When the user ask for a color recommendation, ask him to describe what is the base color of his house or room in words.
     If the user can't describe it with words, offer to render a color picker. If the user agree, send him a color picker instead. 
-    After he select a color, greet him with supportive text and ask him if he would like to get complementary colors recommendation.
+    Once the user select his color, greet him with supportive text and ask him if he would like to get complementary colors recommendation.
     If the user agree, send him the a complementary color picker
     `,
 
     messages: [...history.get(), { role: 'user', content: input }],
 
     text: ({ content, done }) => {
+      console.log(content);
+      
       if (done) {
         history.done((messages: ServerMessage[]) => [
           ...messages,
@@ -48,7 +50,7 @@ export async function HomeDecoratorAction(input: string) {
     },
     tools: {
       showSimpleColorPicker: {
-        description: 'Render a simple color picker to help the user select a bse color with UI',
+        description: 'Render a simple color picker to help the user select a base color with UI',
         inputSchema: z.object({}),
         generate: async () => {
           history.done((messages: ServerMessage[]) => [

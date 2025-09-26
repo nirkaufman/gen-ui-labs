@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import {ReactNode, useState} from 'react';
+import {useActions, useUIState} from "@ai-sdk/rsc";
+import {HomeDecoratorAction} from "@/components/A1-case-study/home-decorator.action";
 
 const popularColors = [
   '#FF6B6B', // Red
@@ -14,11 +16,19 @@ const popularColors = [
 ];
 
 export default function SimpleColorPicker() {
+  const {HomeDecoratorAction} = useActions();
   const [selectedColor, setSelectedColor] = useState<string>('');
+  const setMessages = useUIState()[1];
 
-  const handleColorClick = (color: string) => {
+
+  const handleColorClick = async (color: string) => {
     setSelectedColor(color);
-    console.log('Selected color:', color);
+
+    const display = await HomeDecoratorAction(
+        `This is my current color: ${selectedColor}, recommend me a complementary new color`,
+    );
+
+    setMessages((messages: ReactNode[]) => [...messages, display]);
   };
 
   return (
